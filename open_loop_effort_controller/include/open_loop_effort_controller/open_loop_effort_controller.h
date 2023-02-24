@@ -28,12 +28,9 @@ protected:
   ros::NodeHandle m_controller_nh;
   ros::Subscriber m_target_subscriber;
   ros::CallbackQueue m_queue;
-  boost::shared_ptr<ros::AsyncSpinner> m_spinner;
 
   hardware_interface::EffortJointInterface* m_hw;
   hardware_interface::JointHandle m_jh;
-
-
 
   std::string m_joint_name;
   double m_eff_cmd;
