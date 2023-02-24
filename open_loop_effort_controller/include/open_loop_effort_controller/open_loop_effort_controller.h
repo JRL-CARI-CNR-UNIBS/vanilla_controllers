@@ -3,14 +3,11 @@
 
 # include <controller_interface/controller.h>
 # include <hardware_interface/joint_command_interface.h>
-# include <thread>
-# include <mutex>
 # include <boost/graph/graph_concepts.hpp>
 # include <ros/ros.h>
 # include <sensor_msgs/JointState.h>
 # include <pluginlib/class_list_macros.h>
 
-# include <subscription_notifier/subscription_notifier.h>
 # include <ros/callback_queue.h>
 
 

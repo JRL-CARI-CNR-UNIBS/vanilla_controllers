@@ -10,7 +10,6 @@ find_package(catkin REQUIRED COMPONENTS
   controller_interface
   controller_manager
   hardware_interface
-  subscription_notifier
   pluginlib
   roscpp
   std_msgs
@@ -23,7 +22,7 @@ find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES open_loop_effort_controller
-  CATKIN_DEPENDS controller_interface controller_manager hardware_interface  subscription_notifier pluginlib roscpp sensor_msgs std_msgs
+  CATKIN_DEPENDS controller_interface controller_manager hardware_interface  pluginlib roscpp sensor_msgs std_msgs
   DEPENDS
 )
 
