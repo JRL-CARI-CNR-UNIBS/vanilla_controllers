@@ -1,0 +1,7 @@
+<library path="lib/libsea_effort_controller">
+  <class name="control/SeaEffortController" type="control::SeaEffortController" base_class_type="controller_interface::ControllerBase">
+		<description>
+			TDB
+		</description>
+	</class>
+</library>
