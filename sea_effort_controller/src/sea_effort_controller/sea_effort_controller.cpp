@@ -19,13 +19,17 @@ bool SeaEffortController::init(hardware_interface::RobotHW *hw, ros::NodeHandle&
   }
   if (!controller_nh.getParam("link_joint",m_link_joint_name))
   {
-    ROS_ERROR("controlled_joint is not defined");
+    ROS_ERROR("link_joint is not defined");
     return false;
   }
+
   bool flag=false;
-  for (unsigned idx=0;idx<m_hw->getNames().size();idx++)
+
+  ROS_INFO("effort hw has %zu handles",m_effort_hw->getNames().size());
+  for (unsigned idx=0;idx<m_effort_hw->getNames().size();idx++)
   {
-    if (!m_hw->getNames().at(idx).compare(m_joint_name))
+    ROS_INFO(" handle %s",m_effort_hw->getNames().at(idx).c_str() );
+    if (!m_effort_hw->getNames().at(idx).compare(m_joint_name))
     {
       m_motor_joint_handle=m_effort_hw->getHandle(m_joint_name);
       flag=true;
@@ -34,14 +38,15 @@ bool SeaEffortController::init(hardware_interface::RobotHW *hw, ros::NodeHandle&
   }
   if (!flag)
   {
-    ROS_ERROR("controlled_joint is not part of the hardware_interface");
+    ROS_ERROR("controlled_joint %s is not part of the hardware_interface",m_joint_name.c_str());
     return false;
   }
 
   flag=false;
-  for (unsigned idx=0;idx<m_hw->getNames().size();idx++)
+  ROS_INFO("state hw has %zu handles",m_js_hw->getNames().size());
+  for (unsigned idx=0;idx<m_js_hw->getNames().size();idx++)
   {
-    if (!m_hw->getNames().at(idx).compare(m_link_joint_name))
+    if (!m_js_hw->getNames().at(idx).compare(m_link_joint_name))
     {
       m_link_joint_handle=m_js_hw->getHandle(m_link_joint_name);
       flag=true;
@@ -50,7 +55,7 @@ bool SeaEffortController::init(hardware_interface::RobotHW *hw, ros::NodeHandle&
   }
   if (!flag)
   {
-    ROS_ERROR("link_joint is not part of the hardware_interface");
+    ROS_ERROR("link_joint %s is not part of the hardware_interface",m_link_joint_name.c_str());
     return false;
   }
 
@@ -101,7 +106,6 @@ bool SeaEffortController::init(hardware_interface::RobotHW *hw, ros::NodeHandle&
   {
     ROS_INFO_STREAM(m_controller_nh.getNamespace()+"/'use_difference_state' does not exist, set false");
     m_difference_state=false;
-    return false;
   }
 
 
@@ -187,7 +191,9 @@ void SeaEffortController::update(const ros::Time& /*time*/, const ros::Duration&
     m_state.at(3)=m_link_vel;
     if (m_difference_state)
     {
+      m_r.at(0)=m_position_reference;
       m_r.at(1)=m_position_reference;
+      m_r.at(2)=m_velocity_reference;
       m_r.at(3)=m_velocity_reference;
     }
 
